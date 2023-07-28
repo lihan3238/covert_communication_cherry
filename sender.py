@@ -29,17 +29,17 @@ def send_post(username, password, text, file_path, url):
     file = {'image': (image.name, open(image, 'rb'))}
 
     r = s.post(url + '/api/posts', data=from_data, files=file)
-    if not r.status_code == 201:
+    if r.status_code < 200 or r.status_code >= 300:
         print('Upload post failed.')
         return
 
 
 if __name__ == '__main__':
-    username = ''
-    password = ''
+    username = 'ldy9321@cuc.edu.cn'
+    password = 'Qh461300'
 
-    text = ''
-    image_file = r''
+    text = 'test3'
+    image_file = r'./img/0cfb11448179fad834760f5f132bb7bc.jpeg'
     url = 'http://127.0.0.1:5000'
 
     new_image = Path(image_file).with_name('embed.jpg')

@@ -1,2 +1,6 @@
 Pipfile.lock
 .vscode
+.venv
+*.jpg
+*.jpeg
+*.png

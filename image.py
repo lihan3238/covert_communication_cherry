@@ -129,7 +129,6 @@ def extract_watermark(embeded_image_path):
 
     countHeight = int(iHeight / 8)
     countWidth = int(iWidth / 8)
-
     index = 0
     length_string = ""
     watermark_length = 0
@@ -170,7 +169,8 @@ def extract_watermark(embeded_image_path):
                 index += 1
 
 
-if __name__ == '__main__':
-    extract_watermark(
-        "C:/Users/admin/Desktop/learn_flask_the_hard_way/0x08_adminlte/instance/temp/temp.jpg"
-    )
+#if __name__ == '__main__':
+    #extract_watermark(
+    #    "C:/Users/admin/Desktop/learn_flask_the_hard_way/0x08_adminlte/instance/temp/temp.jpg"
+    #)
+    
