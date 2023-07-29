@@ -1,12 +1,14 @@
 from pathlib import Path
-
+import os
 import requests
 
 from image import extract_watermark
 
 
 def download_file(url):
-    local_filename = url.split('/')[-1]
+    
+    local_filename = 'received/'+url.split('/')[-1]
+    os.makedirs(os.path.dirname(local_filename), exist_ok=True)
     with requests.get(url, stream=True) as r:
         r.raise_for_status()
         with open(local_filename, 'wb') as f:

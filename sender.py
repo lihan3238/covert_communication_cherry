@@ -39,7 +39,7 @@ if __name__ == '__main__':
     password = 'Qh461300'
 
     text = 'test3'
-    image_file = r'./img/0cfb11448179fad834760f5f132bb7bc.jpeg'
+    image_file = r'./img/k.png'
     url = 'http://127.0.0.1:5000'
 
     new_image = Path(image_file).with_name('embed.jpg')

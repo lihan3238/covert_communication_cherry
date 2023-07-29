@@ -120,53 +120,61 @@ def embed_watermark(image_path, watermark_string, embeded_image_path):
 
 
 def extract_watermark(embeded_image_path):
+    # 读取含密图像并将其转换为YCrCb颜色空间
     image = cv2.imread(embeded_image_path, cv2.IMREAD_COLOR)
-
     image = cv2.cvtColor(image, cv2.COLOR_BGR2YCR_CB)
-    img = image[:, :, 0]
+    img = image[:, :, 0]  # 提取Y通道（亮度）
 
     iHeight, iWidth = img.shape
+    countHeight = int(iHeight / 8)  # 计算图像垂直方向上8x8块的数量
+    countWidth = int(iWidth / 8)    # 计算图像水平方向上8x8块的数量
+    index = 0                       # 初始化索引，用于跟踪处理的图像块数量
+    length_string = ""              # 初始化字符串，用于存储水印长度信息
+    watermark_length = 0            # 初始化变量，用于存储提取的水印长度
+    watermark_string = ""           # 初始化字符串，用于存储提取的水印二进制信息
 
-    countHeight = int(iHeight / 8)
-    countWidth = int(iWidth / 8)
-    index = 0
-    length_string = ""
-    watermark_length = 0
-    watermark_string = ""
-    # 分块DCT
+    # 通过嵌套循环遍历图像的每一个8x8块
     for startY in range(0, countHeight * 8, 8):
         for startX in range(0, countWidth * 8, 8):
+            # 提取当前8x8块
             block = img[startY:startY + 8, startX:startX + 8].reshape((8, 8))
-            # 进行DCT
+            
+            # 对块进行离散余弦变换（DCT）
             blockf = np.float32(block)
             block_dct = cv2.dct(blockf)
+
+            # 在前8 * SPREAD_WIDTH个图像块中，提取水印长度信息
             if index < 8 * SPREAD_WIDTH:
                 bit = extract_bit(block_dct)
                 if bit == 1:
                     length_string += "1"
                 else:
                     length_string += "0"
+                # 当处理完8 * SPREAD_WIDTH个图像块时，解码长度信息字符串
                 if index == 8 * SPREAD_WIDTH - 1:
-                    length_string = get_original_bin(length_string,
-                                                     SPREAD_WIDTH)
+                    length_string = get_original_bin(length_string, SPREAD_WIDTH)
                     watermark_length = int(length_string, 2)
                 index += 1
+
+            # 在剩余的图像块中（即在前8 * SPREAD_WIDTH个图像块之后），提取水印信息
             elif index < 8 * SPREAD_WIDTH + watermark_length * 8 * SPREAD_WIDTH:
                 bit = extract_bit(block_dct)
                 if bit == 1:
                     watermark_string += "1"
                 else:
                     watermark_string += "0"
+                # 当提取完所有水印信息后，解码水印字符串
                 if index == 8 * SPREAD_WIDTH + watermark_length * 8 * SPREAD_WIDTH - 1:
-                    watermark_string = get_original_bin(
-                        watermark_string, SPREAD_WIDTH)
+                    watermark_string = get_original_bin(watermark_string, SPREAD_WIDTH)
                     decoded_watermark = ""
+                    # 从水印二进制信息中解码每个字符
                     for i in range(watermark_length):
-                        decoded_watermark += chr(
-                            int(watermark_string[i * 8:(i + 1) * 8], 2))
+                        decoded_watermark += chr(int(watermark_string[i * 8:(i + 1) * 8], 2))
+                    # 打印解码后的水印并返回
                     print(decoded_watermark)
                     return decoded_watermark
                 index += 1
+
 
 
 #if __name__ == '__main__':
