@@ -1,10 +1,10 @@
 from pathlib import Path
-import LSb_appli
+#import LSb_appli
 import requests
 from bs4 import BeautifulSoup
 import os
 #from image import embed_watermark
-
+from image import embed_from_str
 
 def send_post(username, password, text, file_path, url):
     s = requests.session()
@@ -46,8 +46,8 @@ if __name__ == '__main__':
 
     output_dir=r'./watermark/'
     
-    LSb_appli.save_text_to_file('helloworld', output_dir)
-    LSb_appli.embed_from_file(image_file, output_dir+'output.txt', str(new_image))
+    #LSb_appli.save_text_to_file('helloworld', output_dir)
+    embed_from_str(image_file, 'helloworld', str(new_image))
     #embed_watermark(image_file, 'helloworld', str(new_image))
 
-    send_post(username, password, text, str(new_image), url)
+    #send_post(username, password, text, str(new_image), url)

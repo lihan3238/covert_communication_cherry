@@ -1,8 +1,8 @@
 from pathlib import Path
 import os
 import requests
-import LSb_appli
-#from image import extract_watermark
+#import LSb_appli
+from image import extract_watermark
 
 
 def download_file(url):
@@ -28,8 +28,8 @@ def get_post(url):
 
     for post in posts:
         image_file = download_file(url + '/images/' + post['image'])
-        #extract_watermark(image_file)
-        LSb_appli.extract_watermark(image_file)
+        extract_watermark(image_file)
+        #LSb_appli.extract_watermark(image_file)
 
 
 if __name__ == '__main__':
