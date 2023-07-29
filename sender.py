@@ -39,11 +39,11 @@ if __name__ == '__main__':
     password = 'Qh461300'
 
     text = 'test3'
-    image_file = r'./img/k.png'
+    image_file = r'./img/s.png'
     url = 'http://127.0.0.1:5000'
 
-    new_image = Path(image_file).with_name('embed.jpg')
+    new_image = Path(image_file).with_name('embed.png')
 
-    embed_watermark(image_file, 'hello,world!', str(new_image))
+    embed_watermark(image_file, 'helloworld', str(new_image))
 
     send_post(username, password, text, str(new_image), url)

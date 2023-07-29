@@ -155,15 +155,18 @@ def extract_watermark(embeded_image_path):
                     length_string = get_original_bin(length_string, SPREAD_WIDTH)
                     watermark_length = int(length_string, 2)
                 index += 1
-
+                #print(str(watermark_length))
             # 在剩余的图像块中（即在前8 * SPREAD_WIDTH个图像块之后），提取水印信息
             elif index < 8 * SPREAD_WIDTH + watermark_length * 8 * SPREAD_WIDTH:
+                
                 bit = extract_bit(block_dct)
                 if bit == 1:
                     watermark_string += "1"
                 else:
                     watermark_string += "0"
                 # 当提取完所有水印信息后，解码水印字符串
+                #print("index="+str(index)+"n="+str(8 * SPREAD_WIDTH + watermark_length * 8 * SPREAD_WIDTH - 1)+"lenth="+str(watermark_length))
+                #if index == 8 * SPREAD_WIDTH + watermark_length * 8 * SPREAD_WIDTH - 1:
                 if index == 8 * SPREAD_WIDTH + watermark_length * 8 * SPREAD_WIDTH - 1:
                     watermark_string = get_original_bin(watermark_string, SPREAD_WIDTH)
                     decoded_watermark = ""
